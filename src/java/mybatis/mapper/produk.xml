@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Produk">
+
+	<resultMap id="result" type="Produk">
+		<result property="id" column="ID" />
+		<result property="nama" column="NAMA" />
+		<result property="harga" column="HARGA" />
+                <result property="stok" column="STOK" />
+	</resultMap>
+
+	<select id="getAll" resultMap="result">
+		SELECT * FROM produk;
+	</select>
+
+	<select id="getById" parameterType="int" resultMap="result"> 
+            SELECT * FROM produk WHERE ID = #{id};
+	</select>
+
+	<insert id="insert" parameterType="Produk">
+		INSERT INTO produk (nama, harga, stok) VALUES
+		(#{nama}, #{harga}, #{stok});
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select
+			last_insert_id() as id
+		</selectKey>
+	</insert>
+	<insert id="insertFull" parameterType="Produk">
+		INSERT INTO produk (id, nama, harga, stok) VALUES
+		(#{id}, #{nama}, #{harga}, #{stok});
+	</insert>
+
+
+	<update id="update" parameterType="Produk">
+		UPDATE produk SET NAMA = #{nama}, harga =
+		#{harga}, stok = #{stok} WHERE ID = #{id};
+	</update>
+
+	<delete id="deleteById" parameterType="String">
+		DELETE FROM produk WHERE id = #{id};
+	</delete>
+        
+	<delete id="delete" parameterType="Produk">
+		DELETE FROM produk WHERE id = #{id};
+	</delete>
+
+</mapper>
+
+
